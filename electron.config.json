@@ -1,0 +1,29 @@
+{
+  "packagerConfig": {
+    "name": "سیستم مدیریت کپسول‌های اطفاء حریق",
+    "executableName": "extingui-wiz",
+    "appBundleId": "app.lovable.d32bc3954e624c14a3127a92b2af9751",
+    "appVersion": "1.0.0",
+    "appCopyright": "Copyright © 2024",
+    "icon": "resources/icon",
+    "out": "dist-electron",
+    "overwrite": true
+  },
+  "makers": [
+    {
+      "name": "@electron-forge/maker-squirrel",
+      "config": {
+        "name": "extingui_wiz",
+        "setupIcon": "resources/icon.ico"
+      }
+    },
+    {
+      "name": "@electron-forge/maker-zip",
+      "platforms": ["darwin"]
+    },
+    {
+      "name": "@electron-forge/maker-deb",
+      "config": {}
+    }
+  ]
+}
