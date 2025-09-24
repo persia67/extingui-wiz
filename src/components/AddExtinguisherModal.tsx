@@ -27,14 +27,16 @@ export const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
 }) => {
   const [formData, setFormData] = useState<{
     code: string;
-    location: string;
+    mainArea: string;
+    specificLocation: string;
     type: 'powder' | 'co2' | 'foam' | 'water';
     capacity: string;
     lastRechargeDate: string;
     notes: string;
   }>({
     code: '',
-    location: '',
+    mainArea: '',
+    specificLocation: '',
     type: 'powder',
     capacity: '6',
     lastRechargeDate: '',
@@ -44,9 +46,12 @@ export const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
 
   useEffect(() => {
     if (editingExtinguisher) {
+      // Split existing location into main area and specific location if possible
+      const locationParts = editingExtinguisher.location.split(' - ');
       setFormData({
         code: editingExtinguisher.code,
-        location: editingExtinguisher.location,
+        mainArea: locationParts[0] || '',
+        specificLocation: locationParts[1] || locationParts[0] || '',
         type: editingExtinguisher.type,
         capacity: editingExtinguisher.capacity,
         lastRechargeDate: editingExtinguisher.lastRechargeDate,
@@ -55,7 +60,8 @@ export const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
     } else {
       setFormData({
         code: '',
-        location: '',
+        mainArea: '',
+        specificLocation: '',
         type: 'powder',
         capacity: '6',
         lastRechargeDate: '',
@@ -68,8 +74,8 @@ export const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.location.trim() || !formData.lastRechargeDate.trim()) {
-      setError('محل نصب و تاریخ شارژ الزامی است');
+    if (!formData.mainArea.trim() || !formData.specificLocation.trim() || !formData.lastRechargeDate.trim()) {
+      setError('محل اصلی، آدرس دقیق و تاریخ شارژ الزامی است');
       return;
     }
 
@@ -84,13 +90,19 @@ export const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
     }
 
     setError('');
-    onSubmit(formData);
+    // Combine mainArea and specificLocation into a single location string
+    const combinedLocation = `${formData.mainArea} - ${formData.specificLocation}`;
+    onSubmit({
+      ...formData,
+      location: combinedLocation
+    });
   };
 
   const handleClose = () => {
     setFormData({
       code: '',
-      location: '',
+      mainArea: '',
+      specificLocation: '',
       type: 'powder',
       capacity: '6',
       lastRechargeDate: '',
@@ -128,13 +140,39 @@ export const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="location">محل نصب *</Label>
+            <Label htmlFor="mainArea">محل اصلی *</Label>
+            <Select
+              value={formData.mainArea}
+              onValueChange={(value: string) => setFormData({...formData, mainArea: value})}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="انتخاب محل اصلی" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="واحد اسید شویی">واحد اسید شویی</SelectItem>
+                <SelectItem value="واحد تولید">واحد تولید</SelectItem>
+                <SelectItem value="انبار مواد">انبار مواد</SelectItem>
+                <SelectItem value="دفتر مدیریت">دفتر مدیریت</SelectItem>
+                <SelectItem value="کارگاه مکانیک">کارگاه مکانیک</SelectItem>
+                <SelectItem value="ورودی اصلی">ورودی اصلی</SelectItem>
+                <SelectItem value="پارکینگ">پارکینگ</SelectItem>
+                <SelectItem value="سالن اصلی">سالن اصلی</SelectItem>
+                <SelectItem value="آزمایشگاه">آزمایشگاه</SelectItem>
+                <SelectItem value="راهرو طبقه اول">راهرو طبقه اول</SelectItem>
+                <SelectItem value="راهرو طبقه دوم">راهرو طبقه دوم</SelectItem>
+                <SelectItem value="اتاق برق">اتاق برق</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="specificLocation">آدرس دقیق *</Label>
             <Input
-              id="location"
+              id="specificLocation"
               required
-              value={formData.location}
-              onChange={(e) => setFormData({...formData, location: e.target.value})}
-              placeholder="مثال: ورودی اصلی"
+              value={formData.specificLocation}
+              onChange={(e) => setFormData({...formData, specificLocation: e.target.value})}
+              placeholder="مثال: ابتدای خط، مجاورت پست برق"
             />
           </div>
 
