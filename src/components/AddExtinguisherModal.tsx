@@ -149,18 +149,16 @@ export const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
                 <SelectValue placeholder="انتخاب محل اصلی" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="واحد اسید شویی">واحد اسید شویی</SelectItem>
-                <SelectItem value="واحد تولید">واحد تولید</SelectItem>
-                <SelectItem value="انبار مواد">انبار مواد</SelectItem>
-                <SelectItem value="دفتر مدیریت">دفتر مدیریت</SelectItem>
-                <SelectItem value="کارگاه مکانیک">کارگاه مکانیک</SelectItem>
-                <SelectItem value="ورودی اصلی">ورودی اصلی</SelectItem>
-                <SelectItem value="پارکینگ">پارکینگ</SelectItem>
-                <SelectItem value="سالن اصلی">سالن اصلی</SelectItem>
-                <SelectItem value="آزمایشگاه">آزمایشگاه</SelectItem>
-                <SelectItem value="راهرو طبقه اول">راهرو طبقه اول</SelectItem>
-                <SelectItem value="راهرو طبقه دوم">راهرو طبقه دوم</SelectItem>
-                <SelectItem value="اتاق برق">اتاق برق</SelectItem>
+                <SelectItem value="سالن اسید شویی">سالن اسید شویی</SelectItem>
+                <SelectItem value="سالن گالوانیزه">سالن گالوانیزه</SelectItem>
+                <SelectItem value="نورد سرد">نورد سرد</SelectItem>
+                <SelectItem value="زیر زمین نورد سرد">زیر زمین نورد سرد</SelectItem>
+                <SelectItem value="سالن انبار محصول">سالن انبار محصول</SelectItem>
+                <SelectItem value="خط قدیم">خط قدیم</SelectItem>
+                <SelectItem value="اداری">اداری</SelectItem>
+                <SelectItem value="ماشین سازی">ماشین سازی</SelectItem>
+                <SelectItem value="تاسیسات">تاسیسات</SelectItem>
+                <SelectItem value="سایر مکان‌ها">سایر مکان‌ها</SelectItem>
               </SelectContent>
             </Select>
           </div>
