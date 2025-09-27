@@ -25,6 +25,10 @@ export default defineConfig(({ mode }) => ({
         }
       }
     },
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
+    cssCodeSplit: true
+  },
+  css: {
+    devSourcemap: true
   }
 }));

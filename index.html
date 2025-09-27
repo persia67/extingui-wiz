@@ -18,6 +18,14 @@
     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
     <link rel="modulepreload" href="/src/main.tsx" />
     
+    <!-- Critical CSS Preload -->
+    <style>
+      /* Critical CSS to prevent FOUC */
+      body { margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+      #root { min-height: 100vh; }
+      .min-h-screen { min-height: 100vh; }
+    </style>
+    
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
     
@@ -45,6 +53,14 @@
     
     <!-- Service Worker Registration -->
     <script>
+      // Optimize CSS loading
+      const loadCSS = (href) => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        document.head.appendChild(link);
+      };
+      
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
