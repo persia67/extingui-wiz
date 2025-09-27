@@ -18,7 +18,7 @@ interface AddExtinguisherModalProps {
   existingCodes: string[];
 }
 
-export const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
+const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
   isOpen,
   onClose,
   onSubmit,

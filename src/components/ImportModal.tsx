@@ -12,7 +12,7 @@ interface ImportModalProps {
   onImport: (data: any[]) => void;
 }
 
-export const ImportModal: React.FC<ImportModalProps> = ({
+const ImportModal: React.FC<ImportModalProps> = ({
   isOpen,
   onClose,
   onImport
