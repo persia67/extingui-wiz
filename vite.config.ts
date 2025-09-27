@@ -21,8 +21,10 @@ export default defineConfig(({ mode }) => ({
         manualChunks: {
           vendor: ['react', 'react-dom'],
           ui: ['@radix-ui/react-dialog', '@radix-ui/react-select', '@radix-ui/react-toast'],
+          utils: ['date-fns', 'clsx', 'tailwind-merge']
         }
       }
-    }
+    },
+    chunkSizeWarningLimit: 1000
   }
 }));

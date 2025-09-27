@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Plus, Download, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,11 +8,13 @@ import { Dashboard } from './Dashboard';
 import { DashboardSkeleton } from './DashboardSkeleton';
 import { ExtinguisherTable } from './ExtinguisherTable';
 import { ExtinguisherTableSkeleton } from './ExtinguisherTableSkeleton';
-import { AddExtinguisherModal } from './AddExtinguisherModal';
-import { ImportModal } from './ImportModal';
-import { PWAInstallPrompt } from './PWAInstallPrompt';
 import { useExtinguisherData } from '../hooks/useExtinguisherData';
 import { useIsMobile } from '@/hooks/use-mobile';
+
+// Lazy load modal components
+const AddExtinguisherModal = lazy(() => import('./AddExtinguisherModal'));
+const ImportModal = lazy(() => import('./ImportModal'));
+const PWAInstallPrompt = lazy(() => import('./PWAInstallPrompt'));
 
 const FireExtinguisherManagement = () => {
   const {
@@ -192,25 +194,31 @@ const FireExtinguisherManagement = () => {
         )}
 
         {/* Modals */}
-        <AddExtinguisherModal
-          isOpen={showAddModal}
-          onClose={() => {
-            setShowAddModal(false);
-            setEditingExtinguisher(null);
-          }}
-          onSubmit={editingExtinguisher ? handleUpdateExtinguisher : handleAddExtinguisher}
-          editingExtinguisher={editingExtinguisher}
-          existingCodes={extinguishers.map(e => e.code)}
-        />
+        <Suspense fallback={null}>
+          <AddExtinguisherModal
+            isOpen={showAddModal}
+            onClose={() => {
+              setShowAddModal(false);
+              setEditingExtinguisher(null);
+            }}
+            onSubmit={editingExtinguisher ? handleUpdateExtinguisher : handleAddExtinguisher}
+            editingExtinguisher={editingExtinguisher}
+            existingCodes={extinguishers.map(e => e.code)}
+          />
+        </Suspense>
 
-        <ImportModal
-          isOpen={showImportModal}
-          onClose={() => setShowImportModal(false)}
-          onImport={handleImport}
-        />
+        <Suspense fallback={null}>
+          <ImportModal
+            isOpen={showImportModal}
+            onClose={() => setShowImportModal(false)}
+            onImport={handleImport}
+          />
+        </Suspense>
 
         {/* PWA Install Prompt */}
-        <PWAInstallPrompt />
+        <Suspense fallback={null}>
+          <PWAInstallPrompt />
+        </Suspense>
       </div>
     </div>
   );

@@ -238,3 +238,5 @@ export const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
     </Dialog>
   );
 };
+
+export default AddExtinguisherModal;

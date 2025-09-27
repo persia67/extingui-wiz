@@ -238,3 +238,5 @@ export const ImportModal: React.FC<ImportModalProps> = ({
     </Dialog>
   );
 };
+
+export default ImportModal;

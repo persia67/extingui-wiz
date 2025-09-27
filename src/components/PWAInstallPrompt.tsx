@@ -84,3 +84,5 @@ export const PWAInstallPrompt: React.FC = () => {
     </Card>
   );
 };
+
+export default PWAInstallPrompt;
