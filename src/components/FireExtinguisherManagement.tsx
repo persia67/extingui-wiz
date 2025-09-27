@@ -5,7 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Dashboard } from './Dashboard';
+import { DashboardSkeleton } from './DashboardSkeleton';
 import { ExtinguisherTable } from './ExtinguisherTable';
+import { ExtinguisherTableSkeleton } from './ExtinguisherTableSkeleton';
 import { AddExtinguisherModal } from './AddExtinguisherModal';
 import { ImportModal } from './ImportModal';
 import { PWAInstallPrompt } from './PWAInstallPrompt';
@@ -15,6 +17,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const FireExtinguisherManagement = () => {
   const {
     extinguishers,
+    isLoading,
     addExtinguisher,
     updateExtinguisher,
     deleteExtinguisher,
@@ -112,7 +115,11 @@ const FireExtinguisherManagement = () => {
           </div>
           
           {/* Dashboard Stats */}
-          <Dashboard extinguishers={extinguishers} isMobile={isMobile} />
+          {isLoading ? (
+            <DashboardSkeleton isMobile={isMobile} />
+          ) : (
+            <Dashboard extinguishers={extinguishers} isMobile={isMobile} />
+          )}
         </div>
 
         {/* Controls */}
@@ -173,12 +180,16 @@ const FireExtinguisherManagement = () => {
         </div>
 
         {/* Extinguisher Table */}
-        <ExtinguisherTable
-          extinguishers={filteredExtinguishers}
-          onEdit={handleEditExtinguisher}
-          onDelete={handleDeleteExtinguisher}
-          isMobile={isMobile}
-        />
+        {isLoading ? (
+          <ExtinguisherTableSkeleton isMobile={isMobile} />
+        ) : (
+          <ExtinguisherTable
+            extinguishers={filteredExtinguishers}
+            onEdit={handleEditExtinguisher}
+            onDelete={handleDeleteExtinguisher}
+            isMobile={isMobile}
+          />
+        )}
 
         {/* Modals */}
         <AddExtinguisherModal

@@ -17,6 +17,7 @@ export interface Extinguisher {
 
 export const useExtinguisherData = () => {
   const [extinguishers, setExtinguishers] = useState<Extinguisher[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Initialize with sample data
   useEffect(() => {
@@ -49,6 +50,7 @@ export const useExtinguisherData = () => {
       }
     ];
     setExtinguishers(sampleData);
+    setIsLoading(false);
   }, []);
 
   const generateCode = (): string => {
@@ -166,6 +168,7 @@ export const useExtinguisherData = () => {
 
   return {
     extinguishers,
+    isLoading,
     addExtinguisher,
     updateExtinguisher,
     deleteExtinguisher,
