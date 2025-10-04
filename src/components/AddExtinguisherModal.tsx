@@ -31,16 +31,14 @@ const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
     specificLocation: string;
     type: 'powder' | 'co2' | 'foam' | 'water';
     capacity: string;
-    lastRechargeDate: string;
-    notes: string;
+    last_recharge_date: string;
   }>({
     code: '',
     mainArea: '',
     specificLocation: '',
     type: 'powder',
     capacity: '6',
-    lastRechargeDate: '',
-    notes: ''
+    last_recharge_date: ''
   });
   const [error, setError] = useState('');
 
@@ -54,8 +52,7 @@ const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
         specificLocation: locationParts[1] || locationParts[0] || '',
         type: editingExtinguisher.type,
         capacity: editingExtinguisher.capacity,
-        lastRechargeDate: editingExtinguisher.lastRechargeDate,
-        notes: editingExtinguisher.notes
+        last_recharge_date: editingExtinguisher.last_recharge_date
       });
     } else {
       setFormData({
@@ -64,8 +61,7 @@ const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
         specificLocation: '',
         type: 'powder',
         capacity: '6',
-        lastRechargeDate: '',
-        notes: ''
+        last_recharge_date: ''
       });
     }
     setError('');
@@ -74,12 +70,12 @@ const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.mainArea.trim() || !formData.specificLocation.trim() || !formData.lastRechargeDate.trim()) {
+    if (!formData.mainArea.trim() || !formData.specificLocation.trim() || !formData.last_recharge_date.trim()) {
       setError('محل اصلی، آدرس دقیق و تاریخ شارژ الزامی است');
       return;
     }
 
-    if (!isValidPersianDate(formData.lastRechargeDate)) {
+    if (!isValidPersianDate(formData.last_recharge_date)) {
       setError('فرمت تاریخ نادرست است (1403/01/01)');
       return;
     }
@@ -105,8 +101,7 @@ const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
       specificLocation: '',
       type: 'powder',
       capacity: '6',
-      lastRechargeDate: '',
-      notes: ''
+      last_recharge_date: ''
     });
     setError('');
     onClose();
@@ -204,24 +199,13 @@ const AddExtinguisherModal: React.FC<AddExtinguisherModalProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="lastRechargeDate">آخرین شارژ *</Label>
+            <Label htmlFor="last_recharge_date">آخرین شارژ *</Label>
             <Input
-              id="lastRechargeDate"
+              id="last_recharge_date"
               required
-              value={formData.lastRechargeDate}
-              onChange={(e) => setFormData({...formData, lastRechargeDate: e.target.value})}
+              value={formData.last_recharge_date}
+              onChange={(e) => setFormData({...formData, last_recharge_date: e.target.value})}
               placeholder="1403/07/15"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="notes">توضیحات</Label>
-            <Textarea
-              id="notes"
-              value={formData.notes}
-              onChange={(e) => setFormData({...formData, notes: e.target.value})}
-              placeholder="توضیحات اضافی..."
-              rows={3}
             />
           </div>
 

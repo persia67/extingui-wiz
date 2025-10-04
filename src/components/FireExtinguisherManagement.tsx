@@ -143,6 +143,7 @@ const FireExtinguisherManagement = () => {
                 <SelectContent>
                   <SelectItem value="all">همه وضعیت‌ها</SelectItem>
                   <SelectItem value="active">فعال</SelectItem>
+                  <SelectItem value="warning">هشدار</SelectItem>
                   <SelectItem value="needs_recharge">نیاز به شارژ</SelectItem>
                   <SelectItem value="expired">منقضی</SelectItem>
                   <SelectItem value="out_of_order">خارج از سرویس</SelectItem>

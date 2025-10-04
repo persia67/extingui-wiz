@@ -14,7 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      extinguishers: {
+        Row: {
+          capacity: string
+          code: string
+          created_at: string
+          id: string
+          last_recharge_date: string
+          location: string
+          next_recharge_date: string
+          status: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          capacity: string
+          code: string
+          created_at?: string
+          id?: string
+          last_recharge_date: string
+          location: string
+          next_recharge_date: string
+          status: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          capacity?: string
+          code?: string
+          created_at?: string
+          id?: string
+          last_recharge_date?: string
+          location?: string
+          next_recharge_date?: string
+          status?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

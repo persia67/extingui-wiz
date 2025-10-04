@@ -12,26 +12,26 @@ export const Dashboard: React.FC<DashboardProps> = ({ extinguishers, isMobile })
     {
       title: 'کل کپسول‌ها',
       value: extinguishers.length,
-      color: 'bg-gradient-fire',
-      textColor: 'text-white'
+      color: 'bg-primary',
+      textColor: 'text-primary-foreground'
     },
     {
       title: 'فعال',
       value: extinguishers.filter(e => e.status === 'active').length,
-      color: 'bg-success-background',
-      textColor: 'text-success'
+      color: 'bg-success',
+      textColor: 'text-success-foreground'
     },
     {
-      title: 'نیاز به شارژ',
-      value: extinguishers.filter(e => e.status === 'needs_recharge').length,
-      color: 'bg-warning-background',
-      textColor: 'text-warning'
+      title: 'هشدار',
+      value: extinguishers.filter(e => e.status === 'warning').length,
+      color: 'bg-warning',
+      textColor: 'text-warning-foreground'
     },
     {
       title: 'منقضی',
       value: extinguishers.filter(e => e.status === 'expired').length,
-      color: 'bg-red-50',
-      textColor: 'text-destructive'
+      color: 'bg-destructive',
+      textColor: 'text-destructive-foreground'
     }
   ];
 

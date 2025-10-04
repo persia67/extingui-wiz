@@ -6,43 +6,43 @@
 
 @layer base {
   :root {
-    /* Fire Safety Color Palette */
-    --background: 0 0% 100%;
-    --foreground: 220 15% 15%;
+    /* Modern Clean Color Palette */
+    --background: 210 20% 98%;
+    --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 15% 15%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 15%;
+    --popover-foreground: 222 47% 11%;
 
-    /* Fire Safety Red as Primary */
-    --primary: 0 85% 50%;
-    --primary-foreground: 0 0% 98%;
-    --primary-hover: 0 85% 45%;
+    /* Blue Primary for Professional Look */
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 217 91% 55%;
 
-    /* Professional Gray Secondary */
-    --secondary: 220 15% 96%;
-    --secondary-foreground: 220 15% 15%;
+    /* Light Gray Secondary */
+    --secondary: 214 32% 91%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 220 15% 96%;
-    --muted-foreground: 220 10% 46%;
+    --muted: 214 32% 91%;
+    --muted-foreground: 215 16% 47%;
 
-    /* Safety Orange Accent */
-    --accent: 25 95% 53%;
-    --accent-foreground: 0 0% 98%;
+    /* Purple Accent for Contrast */
+    --accent: 262 83% 58%;
+    --accent-foreground: 0 0% 100%;
 
-    /* Status Colors */
-    --success: 142 71% 45%;
-    --success-foreground: 0 0% 98%;
-    --success-background: 142 71% 95%;
+    /* Status Colors - More Distinct */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --success-background: 142 76% 95%;
 
-    --warning: 45 93% 47%;
-    --warning-foreground: 0 0% 98%;
-    --warning-background: 45 93% 95%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 47% 11%;
+    --warning-background: 38 92% 95%;
 
-    --destructive: 0 85% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
@@ -50,10 +50,10 @@
 
     --radius: 0.75rem;
 
-    /* Fire Safety Gradients */
-    --gradient-fire: linear-gradient(135deg, hsl(0 85% 50%) 0%, hsl(25 95% 53%) 100%);
-    --gradient-safety: linear-gradient(135deg, hsl(142 71% 45%) 0%, hsl(190 100% 45%) 100%);
-    --gradient-warning: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(35 91% 62%) 100%);
+    /* Modern Gradients */
+    --gradient-fire: linear-gradient(135deg, hsl(0 72% 51%) 0%, hsl(14 100% 57%) 100%);
+    --gradient-safety: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(158 64% 52%) 100%);
+    --gradient-warning: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(45 93% 58%) 100%);
     
     /* Professional Shadows */
     --shadow-soft: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.06);
@@ -64,63 +64,63 @@
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-    --sidebar-background: 220 15% 98%;
-    --sidebar-foreground: 220 15% 15%;
-    --sidebar-primary: 0 85% 50%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 220 15% 96%;
-    --sidebar-accent-foreground: 220 15% 15%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 0 85% 50%;
+    --sidebar-background: 217 91% 60%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 217 91% 70%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 91% 50%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 217 91% 55%;
+    --sidebar-ring: 262 83% 58%;
   }
 
   .dark {
-    /* Dark Fire Safety Theme */
-    --background: 220 15% 8%;
-    --foreground: 0 0% 98%;
+    /* Dark Modern Theme */
+    --background: 222 47% 11%;
+    --foreground: 210 20% 98%;
 
-    --card: 220 15% 10%;
-    --card-foreground: 0 0% 98%;
+    --card: 222 47% 14%;
+    --card-foreground: 210 20% 98%;
 
-    --popover: 220 15% 10%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 222 47% 14%;
+    --popover-foreground: 210 20% 98%;
 
-    --primary: 0 85% 55%;
-    --primary-foreground: 0 0% 98%;
-    --primary-hover: 0 85% 50%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 217 91% 55%;
 
-    --secondary: 220 15% 15%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 222 47% 20%;
+    --secondary-foreground: 210 20% 98%;
 
-    --muted: 220 15% 15%;
-    --muted-foreground: 220 10% 65%;
+    --muted: 222 47% 20%;
+    --muted-foreground: 215 16% 65%;
 
-    --accent: 25 95% 58%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 262 83% 58%;
+    --accent-foreground: 0 0% 100%;
 
-    --success: 142 71% 50%;
-    --success-foreground: 0 0% 98%;
-    --success-background: 142 71% 10%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --success-background: 142 76% 15%;
 
-    --warning: 45 93% 52%;
-    --warning-foreground: 220 15% 8%;
-    --warning-background: 45 93% 15%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 47% 11%;
+    --warning-background: 38 92% 20%;
 
-    --destructive: 0 85% 65%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
     --border: 220 15% 20%;
     --input: 220 15% 20%;
     --ring: 0 85% 55%;
 
-    --sidebar-background: 220 15% 5%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 0 85% 55%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 220 15% 12%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 220 15% 18%;
-    --sidebar-ring: 0 85% 55%;
+    --sidebar-background: 217 91% 30%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 217 91% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 91% 40%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 217 91% 35%;
+    --sidebar-ring: 262 83% 58%;
   }
 }
 

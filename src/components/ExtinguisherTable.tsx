@@ -8,7 +8,7 @@ import { toPersianNumbers } from '../utils/persianUtils';
 interface ExtinguisherTableProps {
   extinguishers: any[];
   onEdit: (extinguisher: any) => void;
-  onDelete: (id: number) => void;
+  onDelete: (id: string) => void;
   isMobile: boolean;
 }
 
@@ -30,7 +30,8 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
 
   const getStatusLabel = (status: string) => {
     const statuses = { 
-      active: 'فعال', 
+      active: 'فعال',
+      warning: 'هشدار - یک ماه مانده',
       needs_recharge: 'نیاز به شارژ', 
       expired: 'منقضی', 
       out_of_order: 'خارج از سرویس' 
@@ -41,6 +42,7 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
   const getStatusVariant = (status: string) => {
     const variants = {
       active: 'default',
+      warning: 'secondary',
       needs_recharge: 'secondary',
       expired: 'destructive',
       out_of_order: 'outline'
@@ -67,7 +69,7 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
               <div className="space-y-2 text-sm text-muted-foreground mb-4">
                 <div>نوع: {getTypeLabel(extinguisher.type)}</div>
                 <div>ظرفیت: {toPersianNumbers(extinguisher.capacity)} کیلوگرم</div>
-                <div>شارژ بعدی: {toPersianNumbers(extinguisher.nextRechargeDate)}</div>
+                <div>شارژ بعدی: {toPersianNumbers(extinguisher.next_recharge_date)}</div>
               </div>
               
               <div className="flex gap-2">
@@ -127,7 +129,7 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
                   <td className="px-6 py-4 text-sm text-muted-foreground">{extinguisher.location}</td>
                   <td className="px-6 py-4 text-sm text-muted-foreground">{getTypeLabel(extinguisher.type)}</td>
                   <td className="px-6 py-4 text-sm text-muted-foreground">{toPersianNumbers(extinguisher.capacity)} کیلوگرم</td>
-                  <td className="px-6 py-4 text-sm text-muted-foreground">{toPersianNumbers(extinguisher.nextRechargeDate)}</td>
+                  <td className="px-6 py-4 text-sm text-muted-foreground">{toPersianNumbers(extinguisher.next_recharge_date)}</td>
                   <td className="px-6 py-4">
                     <Badge variant={getStatusVariant(extinguisher.status)}>
                       {getStatusLabel(extinguisher.status)}
