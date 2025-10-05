@@ -1,17 +1,14 @@
-import { useState, useEffect } from "react";
+import FireExtinguisherManagement from "../components/FireExtinguisherManagement";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
 
 const Index = () => {
-  const [test, setTest] = useState("Loading...");
-  
-  useEffect(() => {
-    setTest("React is working!");
-  }, []);
-
   return (
-    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-      <h1>{test}</h1>
-      <p>If you see this, React hooks are working correctly.</p>
-    </div>
+    <>
+      <Toaster />
+      <Sonner />
+      <FireExtinguisherManagement />
+    </>
   );
 };
 

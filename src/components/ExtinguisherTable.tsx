@@ -7,8 +7,8 @@ import { toPersianNumbers } from '../utils/persianUtils';
 
 interface ExtinguisherTableProps {
   extinguishers: any[];
-  onEdit: (extinguisher: any) => void;
-  onDelete: (id: string) => void;
+  onEdit?: (extinguisher: any) => void;
+  onDelete?: (id: string) => void;
   isMobile: boolean;
 }
 
@@ -72,26 +72,32 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
                 <div>شارژ بعدی: {toPersianNumbers(extinguisher.next_recharge_date)}</div>
               </div>
               
-              <div className="flex gap-2">
-                <Button 
-                  onClick={() => onEdit(extinguisher)} 
-                  size="sm"
-                  variant="outline"
-                  className="flex-1"
-                >
-                  <Edit className="w-4 h-4 ml-1" />
-                  ویرایش
-                </Button>
-                <Button 
-                  onClick={() => onDelete(extinguisher.id)} 
-                  size="sm"
-                  variant="destructive"
-                  className="flex-1"
-                >
-                  <Trash2 className="w-4 h-4 ml-1" />
-                  حذف  
-                </Button>
-              </div>
+              {(onEdit || onDelete) && (
+                <div className="flex gap-2">
+                  {onEdit && (
+                    <Button 
+                      onClick={() => onEdit(extinguisher)} 
+                      size="sm"
+                      variant="outline"
+                      className="flex-1"
+                    >
+                      <Edit className="w-4 h-4 ml-1" />
+                      ویرایش
+                    </Button>
+                  )}
+                  {onDelete && (
+                    <Button 
+                      onClick={() => onDelete(extinguisher.id)} 
+                      size="sm"
+                      variant="destructive"
+                      className="flex-1"
+                    >
+                      <Trash2 className="w-4 h-4 ml-1" />
+                      حذف  
+                    </Button>
+                  )}
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}
@@ -136,24 +142,30 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
                     </Badge>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="flex gap-2">
-                      <Button 
-                        onClick={() => onEdit(extinguisher)} 
-                        size="sm"
-                        variant="ghost"
-                        className="h-8 w-8 p-0 hover:bg-muted"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button 
-                        onClick={() => onDelete(extinguisher.id)} 
-                        size="sm"
-                        variant="ghost"
-                        className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
+                    {(onEdit || onDelete) && (
+                      <div className="flex gap-2">
+                        {onEdit && (
+                          <Button 
+                            onClick={() => onEdit(extinguisher)} 
+                            size="sm"
+                            variant="ghost"
+                            className="h-8 w-8 p-0 hover:bg-muted"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                        )}
+                        {onDelete && (
+                          <Button 
+                            onClick={() => onDelete(extinguisher.id)} 
+                            size="sm"
+                            variant="ghost"
+                            className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        )}
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}

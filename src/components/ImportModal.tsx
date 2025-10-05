@@ -36,9 +36,24 @@ const ImportModal: React.FC<ImportModalProps> = ({
     document.body.removeChild(link);
   };
 
+  // Sanitize CSV values to prevent injection attacks
+  const sanitizeCSVValue = (value: string): string => {
+    const dangerous = /^[=+\-@]/;
+    if (dangerous.test(value)) {
+      return "'" + value; // Prefix with single quote to prevent formula execution
+    }
+    return value;
+  };
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // File size validation (1MB limit)
+    if (file.size > 1024 * 1024) {
+      setError('حجم فایل بیش از حد مجاز است (حداکثر ۱ مگابایت)');
+      return;
+    }
 
     setExcelFile(file);
     const reader = new FileReader();
@@ -51,12 +66,32 @@ const ImportModal: React.FC<ImportModalProps> = ({
         const data = lines.slice(1)
           .filter(line => line.trim())
           .map((line, index) => {
-            const values = line.split(',').map(v => v.trim());
+            const values = line.split(',').map(v => sanitizeCSVValue(v.trim()));
             const errors = [];
             
-            if (!values[0]) errors.push('محل نصب ضروری است');
-            if (!values[1]) errors.push('تاریخ شارژ ضروری است');
-            else if (!isValidPersianDate(values[1])) errors.push('فرمت تاریخ نادرست است');
+            const location = values[0] || '';
+            const lastRechargeDate = values[1] || '';
+            const type = values[2] || 'powder';
+            
+            // Location validation
+            if (!location) {
+              errors.push('محل نصب ضروری است');
+            } else if (!/^[\u0600-\u06FF\s\-،.()0-9a-zA-Z]+$/.test(location)) {
+              errors.push('محل نصب شامل کاراکترهای غیرمجاز است');
+            }
+            
+            // Date validation
+            if (!lastRechargeDate) {
+              errors.push('تاریخ شارژ ضروری است');
+            } else if (!isValidPersianDate(lastRechargeDate)) {
+              errors.push('فرمت تاریخ نادرست است');
+            }
+            
+            // Type validation
+            const validTypes = ['powder', 'co2', 'foam', 'water'];
+            if (!validTypes.includes(type)) {
+              errors.push('نوع کپسول نامعتبر است');
+            }
             
             return {
               rowIndex: index + 2,

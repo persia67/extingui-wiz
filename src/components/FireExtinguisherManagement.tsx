@@ -1,9 +1,11 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { Plus, Download, Upload } from 'lucide-react';
+import { Plus, Download, Upload, LogOut, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { Dashboard } from './Dashboard';
 import { DashboardSkeleton } from './DashboardSkeleton';
 import { ExtinguisherTable } from './ExtinguisherTable';
@@ -28,7 +30,11 @@ const FireExtinguisherManagement = () => {
   } = useExtinguisherData();
   
   const { toast } = useToast();
+  const { user, userRole, signOut } = useAuth();
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
+  
+  const isAdmin = userRole === 'admin';
   
   const [showAddModal, setShowAddModal] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
@@ -97,6 +103,11 @@ const FireExtinguisherManagement = () => {
     }).format(today);
   };
 
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/auth');
+  };
+
   return (
     <div className={`min-h-screen bg-background ${isMobile ? 'p-2' : 'p-4 md:p-6'}`} dir="rtl">
       <div className="max-w-7xl mx-auto space-y-6">
@@ -111,8 +122,31 @@ const FireExtinguisherManagement = () => {
                 مدیریت و پیگیری وضعیت کپسول‌های اطفاء حریق
               </p>
             </div>
-            <div className="text-sm text-muted-foreground bg-muted px-4 py-2 rounded-lg">
-              {getCurrentPersianDate()}
+            <div className="flex flex-col items-end gap-2">
+              <div className="flex items-center gap-2 text-sm">
+                <User className="h-4 w-4 text-muted-foreground" />
+                <span className="text-muted-foreground">{user?.email}</span>
+                {userRole && (
+                  <span className={`px-2 py-1 rounded-full text-xs ${
+                    userRole === 'admin' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
+                  }`}>
+                    {userRole === 'admin' ? 'مدیر' : 'مشاهده‌گر'}
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="text-sm text-muted-foreground bg-muted px-4 py-2 rounded-lg">
+                  {getCurrentPersianDate()}
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSignOut}
+                >
+                  <LogOut className="h-4 w-4 ml-2" />
+                  خروج
+                </Button>
+              </div>
             </div>
           </div>
           
@@ -162,22 +196,26 @@ const FireExtinguisherManagement = () => {
                 صادرات اکسل
               </Button>
               
-              <Button
-                onClick={() => setShowImportModal(true)}
-                variant="outline"
-                className="flex items-center gap-2 bg-accent text-accent-foreground hover:bg-accent/90"
-              >
-                <Upload className="w-4 h-4" />
-                وارد کردن اکسل
-              </Button>
+              {isAdmin && (
+                <>
+                  <Button
+                    onClick={() => setShowImportModal(true)}
+                    variant="outline"
+                    className="flex items-center gap-2 bg-accent text-accent-foreground hover:bg-accent/90"
+                  >
+                    <Upload className="w-4 h-4" />
+                    وارد کردن اکسل
+                  </Button>
 
-              <Button
-                onClick={() => setShowAddModal(true)}
-                className="flex items-center gap-2 bg-gradient-fire hover:opacity-90 transition-opacity"
-              >
-                <Plus className="w-4 h-4" />
-                افزودن کپسول
-              </Button>
+                  <Button
+                    onClick={() => setShowAddModal(true)}
+                    className="flex items-center gap-2 bg-gradient-fire hover:opacity-90 transition-opacity"
+                  >
+                    <Plus className="w-4 h-4" />
+                    افزودن کپسول
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -188,33 +226,37 @@ const FireExtinguisherManagement = () => {
         ) : (
           <ExtinguisherTable
             extinguishers={filteredExtinguishers}
-            onEdit={handleEditExtinguisher}
-            onDelete={handleDeleteExtinguisher}
+            onEdit={isAdmin ? handleEditExtinguisher : undefined}
+            onDelete={isAdmin ? handleDeleteExtinguisher : undefined}
             isMobile={isMobile}
           />
         )}
 
         {/* Modals */}
-        <Suspense fallback={null}>
-          <AddExtinguisherModal
-            isOpen={showAddModal}
-            onClose={() => {
-              setShowAddModal(false);
-              setEditingExtinguisher(null);
-            }}
-            onSubmit={editingExtinguisher ? handleUpdateExtinguisher : handleAddExtinguisher}
-            editingExtinguisher={editingExtinguisher}
-            existingCodes={extinguishers.map(e => e.code)}
-          />
-        </Suspense>
+        {isAdmin && (
+          <>
+            <Suspense fallback={null}>
+              <AddExtinguisherModal
+                isOpen={showAddModal}
+                onClose={() => {
+                  setShowAddModal(false);
+                  setEditingExtinguisher(null);
+                }}
+                onSubmit={editingExtinguisher ? handleUpdateExtinguisher : handleAddExtinguisher}
+                editingExtinguisher={editingExtinguisher}
+                existingCodes={extinguishers.map(e => e.code)}
+              />
+            </Suspense>
 
-        <Suspense fallback={null}>
-          <ImportModal
-            isOpen={showImportModal}
-            onClose={() => setShowImportModal(false)}
-            onImport={handleImport}
-          />
-        </Suspense>
+            <Suspense fallback={null}>
+              <ImportModal
+                isOpen={showImportModal}
+                onClose={() => setShowImportModal(false)}
+                onImport={handleImport}
+              />
+            </Suspense>
+          </>
+        )}
 
         {/* PWA Install Prompt */}
         <Suspense fallback={null}>

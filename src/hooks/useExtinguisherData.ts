@@ -250,6 +250,15 @@ export const useExtinguisherData = () => {
   };
 
   const exportToCSV = () => {
+    // Sanitize CSV output to prevent injection attacks
+    const sanitizeCSVOutput = (value: string): string => {
+      const dangerous = /^[=+\-@]/;
+      if (dangerous.test(value)) {
+        return "'" + value;
+      }
+      return value;
+    };
+
     const getTypeLabel = (type: string) => {
       const types = { powder: 'پودری', co2: 'دی اکسید کربن', foam: 'فوم', water: 'آبی' };
       return types[type as keyof typeof types] || type;
@@ -268,13 +277,13 @@ export const useExtinguisherData = () => {
 
     const headers = ['کد', 'محل نصب', 'نوع', 'ظرفیت', 'آخرین شارژ', 'شارژ بعدی', 'وضعیت'];
     const data = extinguishers.map(ext => [
-      ext.code, 
-      ext.location, 
-      getTypeLabel(ext.type),
-      ext.capacity + ' کیلوگرم', 
-      ext.last_recharge_date, 
-      ext.next_recharge_date, 
-      getStatusLabel(ext.status)
+      sanitizeCSVOutput(ext.code), 
+      sanitizeCSVOutput(ext.location), 
+      sanitizeCSVOutput(getTypeLabel(ext.type)),
+      sanitizeCSVOutput(ext.capacity + ' کیلوگرم'), 
+      sanitizeCSVOutput(ext.last_recharge_date), 
+      sanitizeCSVOutput(ext.next_recharge_date), 
+      sanitizeCSVOutput(getStatusLabel(ext.status))
     ]);
     
     const csvContent = [headers, ...data].map(row => row.join(',')).join('\n');
