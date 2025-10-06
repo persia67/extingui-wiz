@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { toPersianNumbers } from '../utils/persianUtils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ExtinguisherTableProps {
   extinguishers: any[];
@@ -18,25 +19,21 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
   onDelete,
   isMobile
 }) => {
+  const { t, language } = useLanguage();
+  
   const getTypeLabel = (type: string) => {
-    const types = { 
-      powder: 'پودری', 
-      co2: 'دی اکسید کربن', 
-      foam: 'فوم', 
-      water: 'آبی' 
-    };
-    return types[type] || type;
+    return t(type);
   };
 
   const getStatusLabel = (status: string) => {
-    const statuses = { 
-      active: 'فعال',
-      warning: 'هشدار - یک ماه مانده',
-      needs_recharge: 'نیاز به شارژ', 
-      expired: 'منقضی', 
-      out_of_order: 'خارج از سرویس' 
+    const statusMap = {
+      active: 'statusActive',
+      warning: 'statusWarning',
+      needs_recharge: 'needsRecharge',
+      expired: 'statusExpired',
+      out_of_order: 'outOfOrder'
     };
-    return statuses[status] || status;
+    return t(statusMap[status] || status);
   };
 
   const getStatusVariant = (status: string) => {
@@ -67,9 +64,9 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
               </div>
               
               <div className="space-y-2 text-sm text-muted-foreground mb-4">
-                <div>نوع: {getTypeLabel(extinguisher.type)}</div>
-                <div>ظرفیت: {toPersianNumbers(extinguisher.capacity)} کیلوگرم</div>
-                <div>شارژ بعدی: {toPersianNumbers(extinguisher.next_recharge_date)}</div>
+                <div>{t('type')}: {getTypeLabel(extinguisher.type)}</div>
+                <div>{t('capacity')}: {language === 'fa' ? toPersianNumbers(extinguisher.capacity) : extinguisher.capacity} {language === 'fa' ? 'کیلوگرم' : 'kg'}</div>
+                <div>{t('nextRecharge')}: {language === 'fa' ? toPersianNumbers(extinguisher.next_recharge_date) : extinguisher.next_recharge_date}</div>
               </div>
               
               {(onEdit || onDelete) && (
@@ -81,8 +78,8 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
                       variant="outline"
                       className="flex-1"
                     >
-                      <Edit className="w-4 h-4 ml-1" />
-                      ویرایش
+                      <Edit className={`w-4 h-4 ${language === 'fa' ? 'ml-1' : 'mr-1'}`} />
+                      {t('edit')}
                     </Button>
                   )}
                   {onDelete && (
@@ -92,8 +89,8 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
                       variant="destructive"
                       className="flex-1"
                     >
-                      <Trash2 className="w-4 h-4 ml-1" />
-                      حذف  
+                      <Trash2 className={`w-4 h-4 ${language === 'fa' ? 'ml-1' : 'mr-1'}`} />
+                      {t('delete')}
                     </Button>
                   )}
                 </div>
@@ -104,7 +101,7 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
         {extinguishers.length === 0 && (
           <Card className="border-dashed border-2 border-muted">
             <CardContent className="p-8 text-center">
-              <p className="text-muted-foreground">هیچ کپسولی یافت نشد</p>
+              <p className="text-muted-foreground">{t('noExtinguishers')}</p>
             </CardContent>
           </Card>
         )}
@@ -119,13 +116,13 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
           <table className="w-full">
             <thead className="bg-muted/50 border-b border-border">
               <tr>
-                <th className="px-6 py-4 text-right text-sm font-semibold text-foreground">کد</th>
-                <th className="px-6 py-4 text-right text-sm font-semibold text-foreground">محل نصب</th>
-                <th className="px-6 py-4 text-right text-sm font-semibold text-foreground">نوع</th>
-                <th className="px-6 py-4 text-right text-sm font-semibold text-foreground">ظرفیت</th>
-                <th className="px-6 py-4 text-right text-sm font-semibold text-foreground">شارژ بعدی</th>
-                <th className="px-6 py-4 text-right text-sm font-semibold text-foreground">وضعیت</th>
-                <th className="px-6 py-4 text-right text-sm font-semibold text-foreground">عملیات</th>
+                <th className={`px-6 py-4 ${language === 'fa' ? 'text-right' : 'text-left'} text-sm font-semibold text-foreground`}>{t('code')}</th>
+                <th className={`px-6 py-4 ${language === 'fa' ? 'text-right' : 'text-left'} text-sm font-semibold text-foreground`}>{t('location')}</th>
+                <th className={`px-6 py-4 ${language === 'fa' ? 'text-right' : 'text-left'} text-sm font-semibold text-foreground`}>{t('type')}</th>
+                <th className={`px-6 py-4 ${language === 'fa' ? 'text-right' : 'text-left'} text-sm font-semibold text-foreground`}>{t('capacity')}</th>
+                <th className={`px-6 py-4 ${language === 'fa' ? 'text-right' : 'text-left'} text-sm font-semibold text-foreground`}>{t('nextRecharge')}</th>
+                <th className={`px-6 py-4 ${language === 'fa' ? 'text-right' : 'text-left'} text-sm font-semibold text-foreground`}>{t('status')}</th>
+                <th className={`px-6 py-4 ${language === 'fa' ? 'text-right' : 'text-left'} text-sm font-semibold text-foreground`}>{t('actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -134,8 +131,12 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
                   <td className="px-6 py-4 text-sm font-medium text-foreground">{extinguisher.code}</td>
                   <td className="px-6 py-4 text-sm text-muted-foreground">{extinguisher.location}</td>
                   <td className="px-6 py-4 text-sm text-muted-foreground">{getTypeLabel(extinguisher.type)}</td>
-                  <td className="px-6 py-4 text-sm text-muted-foreground">{toPersianNumbers(extinguisher.capacity)} کیلوگرم</td>
-                  <td className="px-6 py-4 text-sm text-muted-foreground">{toPersianNumbers(extinguisher.next_recharge_date)}</td>
+                  <td className="px-6 py-4 text-sm text-muted-foreground">
+                    {language === 'fa' ? toPersianNumbers(extinguisher.capacity) : extinguisher.capacity} {language === 'fa' ? 'کیلوگرم' : 'kg'}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-muted-foreground">
+                    {language === 'fa' ? toPersianNumbers(extinguisher.next_recharge_date) : extinguisher.next_recharge_date}
+                  </td>
                   <td className="px-6 py-4">
                     <Badge variant={getStatusVariant(extinguisher.status)}>
                       {getStatusLabel(extinguisher.status)}
@@ -173,7 +174,7 @@ export const ExtinguisherTable: React.FC<ExtinguisherTableProps> = ({
           </table>
           {extinguishers.length === 0 && (
             <div className="text-center py-12 text-muted-foreground">
-              <p>هیچ کپسولی یافت نشد</p>
+              <p>{t('noExtinguishers')}</p>
             </div>
           )}
         </div>

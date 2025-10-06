@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Flame } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { LanguageToggle } from '@/components/LanguageToggle';
 import { z } from 'zod';
 
 const loginSchema = z.object({
@@ -33,6 +36,7 @@ export default function Auth() {
   const [isLoading, setIsLoading] = useState(false);
   
   const { signIn, signUp, user } = useAuth();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -100,19 +104,23 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-orange-50 p-4" dir="rtl">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted p-4" dir={language === 'fa' ? 'rtl' : 'ltr'}>
+      <div className="absolute top-4 right-4 flex gap-2">
+        <ThemeToggle />
+        <LanguageToggle />
+      </div>
+      <Card className="w-full max-w-md shadow-large">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
-            <div className="bg-red-100 p-3 rounded-full">
-              <Flame className="h-8 w-8 text-red-600" />
+            <div className="bg-primary/10 p-3 rounded-full">
+              <Flame className="h-8 w-8 text-primary" />
             </div>
           </div>
           <CardTitle className="text-2xl">
-            {isLogin ? 'ورود به سیستم' : 'ثبت‌نام'}
+            {isLogin ? t('signIn') : t('signUp')}
           </CardTitle>
           <CardDescription>
-            مدیریت کپسول‌های آتش‌نشانی
+            {t('systemTitle')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -130,13 +138,13 @@ export default function Auth() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
               <div className="space-y-2">
-                <Label htmlFor="fullName">نام کامل</Label>
+                <Label htmlFor="fullName">{language === 'fa' ? 'نام کامل' : 'Full Name'}</Label>
                 <Input
                   id="fullName"
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder="نام و نام خانوادگی"
+                  placeholder={language === 'fa' ? 'نام و نام خانوادگی' : 'Full name'}
                   required={!isLogin}
                   disabled={isLoading}
                 />
@@ -144,26 +152,26 @@ export default function Auth() {
             )}
             
             <div className="space-y-2">
-              <Label htmlFor="email">ایمیل</Label>
+              <Label htmlFor="email">{t('email')}</Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="example@email.com"
+                placeholder={t('emailPlaceholder')}
                 required
                 disabled={isLoading}
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password">رمز عبور</Label>
+              <Label htmlFor="password">{t('password')}</Label>
               <Input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="حداقل ۶ کاراکتر"
+                placeholder={language === 'fa' ? 'حداقل ۶ کاراکتر' : 'Min. 6 characters'}
                 required
                 disabled={isLoading}
               />
@@ -171,13 +179,13 @@ export default function Auth() {
             
             {!isLogin && (
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">تکرار رمز عبور</Label>
+                <Label htmlFor="confirmPassword">{language === 'fa' ? 'تکرار رمز عبور' : 'Confirm Password'}</Label>
                 <Input
                   id="confirmPassword"
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="تکرار رمز عبور"
+                  placeholder={language === 'fa' ? 'تکرار رمز عبور' : 'Confirm password'}
                   required={!isLogin}
                   disabled={isLoading}
                 />
@@ -185,7 +193,7 @@ export default function Auth() {
             )}
             
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'در حال پردازش...' : (isLogin ? 'ورود' : 'ثبت‌نام')}
+              {isLoading ? (language === 'fa' ? 'در حال پردازش...' : 'Processing...') : (isLogin ? t('signIn') : t('signUp'))}
             </Button>
           </form>
           
@@ -200,7 +208,10 @@ export default function Auth() {
               className="text-primary hover:underline"
               disabled={isLoading}
             >
-              {isLogin ? 'حساب کاربری ندارید؟ ثبت‌نام کنید' : 'حساب دارید؟ وارد شوید'}
+              {isLogin 
+                ? (language === 'fa' ? 'حساب کاربری ندارید؟ ثبت‌نام کنید' : "Don't have an account? Sign up") 
+                : (language === 'fa' ? 'حساب دارید؟ وارد شوید' : 'Have an account? Sign in')
+              }
             </button>
           </div>
         </CardContent>
