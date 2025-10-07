@@ -1,1 +1,7 @@
 project_id = "trzhnadqxstjqhnrsmum"
+
+[functions.hello-world]
+verify_jwt = false
+
+[functions.assess-fire-risk]
+verify_jwt = true

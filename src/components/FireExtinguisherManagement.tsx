@@ -11,6 +11,7 @@ import { Dashboard } from './Dashboard';
 import { DashboardSkeleton } from './DashboardSkeleton';
 import { ExtinguisherTable } from './ExtinguisherTable';
 import { ExtinguisherTableSkeleton } from './ExtinguisherTableSkeleton';
+import { RiskAssessment } from './RiskAssessment';
 import { useExtinguisherData } from '../hooks/useExtinguisherData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ThemeToggle } from './ThemeToggle';
@@ -239,6 +240,9 @@ const FireExtinguisherManagement = () => {
             isMobile={isMobile}
           />
         )}
+
+        {/* Risk Assessment Section */}
+        {isAdmin && <RiskAssessment />}
 
         {/* Modals */}
         {isAdmin && (

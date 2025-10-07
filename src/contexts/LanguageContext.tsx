@@ -24,6 +24,7 @@ const translations = {
     active: 'فعال',
     warning: 'هشدار',
     expired: 'منقضی',
+    statusDistribution: 'توزیع وضعیت کپسول‌ها',
     
     // Controls
     searchPlaceholder: 'جستجو بر اساس کد یا محل نصب...',
@@ -106,6 +107,7 @@ const translations = {
     active: 'Active',
     warning: 'Warning',
     expired: 'Expired',
+    statusDistribution: 'Extinguisher Status Distribution',
     
     // Controls
     searchPlaceholder: 'Search by code or location...',
