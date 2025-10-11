@@ -4,4 +4,7 @@ project_id = "trzhnadqxstjqhnrsmum"
 verify_jwt = false
 
 [functions.assess-fire-risk]
-verify_jwt = true
+verify_jwt = false
+
+[functions.fire-safety-chat]
+verify_jwt = false

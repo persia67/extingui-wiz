@@ -12,10 +12,12 @@ import { DashboardSkeleton } from './DashboardSkeleton';
 import { ExtinguisherTable } from './ExtinguisherTable';
 import { ExtinguisherTableSkeleton } from './ExtinguisherTableSkeleton';
 import { RiskAssessment } from './RiskAssessment';
+import { FireSafetyChat } from './FireSafetyChat';
 import { useExtinguisherData } from '../hooks/useExtinguisherData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageToggle } from './LanguageToggle';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Lazy load modal components
 const AddExtinguisherModal = lazy(() => import('./AddExtinguisherModal'));
@@ -167,82 +169,108 @@ const FireExtinguisherManagement = () => {
           )}
         </div>
 
-        {/* Controls */}
-        <div className="bg-card rounded-xl shadow-soft p-6 border border-border">
-          <div className="space-y-4">
-            {/* Search and Filter */}
-            <div className={`flex gap-3 ${isMobile ? 'flex-col' : 'flex-row'}`}>
-              <Input
-                type="text"
-                placeholder={t('searchPlaceholder')}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-1"
-              />
-              <Select value={filterStatus} onValueChange={setFilterStatus}>
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder={t('filterStatus')} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">{t('allStatuses')}</SelectItem>
-                  <SelectItem value="active">{t('active')}</SelectItem>
-                  <SelectItem value="warning">{t('warning')}</SelectItem>
-                  <SelectItem value="needs_recharge">{t('needsRecharge')}</SelectItem>
-                  <SelectItem value="expired">{t('expired')}</SelectItem>
-                  <SelectItem value="out_of_order">{t('outOfOrder')}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            {/* Action Buttons */}
-            <div className={`flex gap-3 ${isMobile ? 'flex-col' : 'flex-row flex-wrap'}`}>
-              <Button
-                onClick={exportToCSV}
-                variant="outline"
-                className="flex items-center gap-2 bg-success text-success-foreground hover:bg-success/90"
-              >
-                <Download className="w-4 h-4" />
-                {t('exportExcel')}
-              </Button>
-              
-              {isAdmin && (
-                <>
+        {/* Main Content with Tabs */}
+        <Tabs defaultValue="extinguishers" className="w-full">
+          <TabsList className="grid w-full grid-cols-3 mb-4">
+            <TabsTrigger value="extinguishers">
+              {language === 'fa' ? 'مدیریت کپسول‌ها' : 'Manage Extinguishers'}
+            </TabsTrigger>
+            {isAdmin && (
+              <TabsTrigger value="risk">
+                {language === 'fa' ? 'ارزیابی ریسک' : 'Risk Assessment'}
+              </TabsTrigger>
+            )}
+            <TabsTrigger value="chat">
+              {language === 'fa' ? 'مشاور هوشمند' : 'AI Advisor'}
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="extinguishers" className="space-y-6">
+            {/* Controls */}
+            <div className="bg-card rounded-xl shadow-soft p-6 border border-border">
+              <div className="space-y-4">
+                {/* Search and Filter */}
+                <div className={`flex gap-3 ${isMobile ? 'flex-col' : 'flex-row'}`}>
+                  <Input
+                    type="text"
+                    placeholder={t('searchPlaceholder')}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Select value={filterStatus} onValueChange={setFilterStatus}>
+                    <SelectTrigger className="w-48">
+                      <SelectValue placeholder={t('filterStatus')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">{t('allStatuses')}</SelectItem>
+                      <SelectItem value="active">{t('active')}</SelectItem>
+                      <SelectItem value="warning">{t('warning')}</SelectItem>
+                      <SelectItem value="needs_recharge">{t('needsRecharge')}</SelectItem>
+                      <SelectItem value="expired">{t('expired')}</SelectItem>
+                      <SelectItem value="out_of_order">{t('outOfOrder')}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className={`flex gap-3 ${isMobile ? 'flex-col' : 'flex-row flex-wrap'}`}>
                   <Button
-                    onClick={() => setShowImportModal(true)}
+                    onClick={exportToCSV}
                     variant="outline"
-                    className="flex items-center gap-2 bg-accent text-accent-foreground hover:bg-accent/90"
+                    className="flex items-center gap-2 bg-success text-success-foreground hover:bg-success/90"
                   >
-                    <Upload className="w-4 h-4" />
-                    {t('importExcel')}
+                    <Download className="w-4 h-4" />
+                    {t('exportExcel')}
                   </Button>
+                  
+                  {isAdmin && (
+                    <>
+                      <Button
+                        onClick={() => setShowImportModal(true)}
+                        variant="outline"
+                        className="flex items-center gap-2 bg-accent text-accent-foreground hover:bg-accent/90"
+                      >
+                        <Upload className="w-4 h-4" />
+                        {t('importExcel')}
+                      </Button>
 
-                  <Button
-                    onClick={() => setShowAddModal(true)}
-                    className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
-                  >
-                    <Plus className="w-4 h-4" />
-                    {t('addExtinguisher')}
-                  </Button>
-                </>
-              )}
+                      <Button
+                        onClick={() => setShowAddModal(true)}
+                        className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+                      >
+                        <Plus className="w-4 h-4" />
+                        {t('addExtinguisher')}
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Extinguisher Table */}
-        {isLoading ? (
-          <ExtinguisherTableSkeleton isMobile={isMobile} />
-        ) : (
-          <ExtinguisherTable
-            extinguishers={filteredExtinguishers}
-            onEdit={isAdmin ? handleEditExtinguisher : undefined}
-            onDelete={isAdmin ? handleDeleteExtinguisher : undefined}
-            isMobile={isMobile}
-          />
-        )}
+            {/* Extinguisher Table */}
+            {isLoading ? (
+              <ExtinguisherTableSkeleton isMobile={isMobile} />
+            ) : (
+              <ExtinguisherTable
+                extinguishers={filteredExtinguishers}
+                onEdit={isAdmin ? handleEditExtinguisher : undefined}
+                onDelete={isAdmin ? handleDeleteExtinguisher : undefined}
+                isMobile={isMobile}
+              />
+            )}
+          </TabsContent>
 
-        {/* Risk Assessment Section */}
-        {isAdmin && <RiskAssessment />}
+          {isAdmin && (
+            <TabsContent value="risk">
+              <RiskAssessment />
+            </TabsContent>
+          )}
+
+          <TabsContent value="chat">
+            <FireSafetyChat />
+          </TabsContent>
+        </Tabs>
 
         {/* Modals */}
         {isAdmin && (
