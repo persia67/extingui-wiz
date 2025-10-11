@@ -171,7 +171,7 @@ const FireExtinguisherManagement = () => {
 
         {/* Main Content with Tabs */}
         <Tabs defaultValue="extinguishers" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-4">
+          <TabsList className={`grid w-full mb-4 ${isAdmin ? 'grid-cols-3' : 'grid-cols-2'}`}>
             <TabsTrigger value="extinguishers">
               {language === 'fa' ? 'مدیریت کپسول‌ها' : 'Manage Extinguishers'}
             </TabsTrigger>
